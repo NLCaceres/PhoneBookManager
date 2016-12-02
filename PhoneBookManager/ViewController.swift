@@ -11,6 +11,8 @@ import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // simple use of coredata
+    
     @IBOutlet weak var tableView: UITableView!
     var ContactList: [NSManagedObject] = []
     
