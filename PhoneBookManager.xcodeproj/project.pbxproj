@@ -15,6 +15,7 @@
 		3A3F79951DEF8F4A000EC813 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A3F79931DEF8F4A000EC813 /* LaunchScreen.storyboard */; };
 		3A3F79A01DEF8F4A000EC813 /* PhoneBookManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3F799F1DEF8F4A000EC813 /* PhoneBookManagerTests.swift */; };
 		3A3F79AB1DEF8F4A000EC813 /* PhoneBookManagerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3F79AA1DEF8F4A000EC813 /* PhoneBookManagerUITests.swift */; };
+		3A3F79B91DEF8FF3000EC813 /* AddContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A3F79B81DEF8FF3000EC813 /* AddContactViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		3A3F79A61DEF8F4A000EC813 /* PhoneBookManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhoneBookManagerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A3F79AA1DEF8F4A000EC813 /* PhoneBookManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneBookManagerUITests.swift; sourceTree = "<group>"; };
 		3A3F79AC1DEF8F4A000EC813 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A3F79B81DEF8FF3000EC813 /* AddContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddContactViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				3A3F79931DEF8F4A000EC813 /* LaunchScreen.storyboard */,
 				3A3F79961DEF8F4A000EC813 /* Info.plist */,
 				3A3F798E1DEF8F4A000EC813 /* PhoneBookManager.xcdatamodeld */,
+				3A3F79B81DEF8FF3000EC813 /* AddContactViewController.swift */,
 			);
 			path = PhoneBookManager;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A3F798A1DEF8F4A000EC813 /* ViewController.swift in Sources */,
+				3A3F79B91DEF8FF3000EC813 /* AddContactViewController.swift in Sources */,
 				3A3F79901DEF8F4A000EC813 /* PhoneBookManager.xcdatamodeld in Sources */,
 				3A3F79881DEF8F4A000EC813 /* AppDelegate.swift in Sources */,
 			);
