@@ -14,10 +14,9 @@ class AddContactViewController: UIViewController, UITextFieldDelegate {
     
     var addContactCH : addContactCompletionHandler?
 
-    
     @IBOutlet weak var newContactNameTextField: UITextField!
     @IBOutlet weak var newContactNumberTextField: UITextField!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +37,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate {
         
         newContactNameTextField.text = nil
         newContactNumberTextField.text = nil
+        self.view.endEditing(true)
         self .dismiss(animated: true, completion: nil)
         
     }
@@ -48,7 +48,7 @@ class AddContactViewController: UIViewController, UITextFieldDelegate {
         }
         newContactNameTextField.text = nil
         newContactNumberTextField.text = nil
-        
+        self.view.endEditing(true)
         self .dismiss(animated: true, completion: nil)
     }
     
@@ -56,7 +56,6 @@ class AddContactViewController: UIViewController, UITextFieldDelegate {
         if let addContactHandler = addContactCH {
             addContactHandler(newContactNameTextField.text, newContactNumberTextField.text)
         }
-        
         newContactNameTextField.text = nil
         newContactNumberTextField.text = nil
         
@@ -69,6 +68,42 @@ class AddContactViewController: UIViewController, UITextFieldDelegate {
         }
         else {
             saveButton.isEnabled = true
+        }
+        if (textField == newContactNumberTextField) {
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+            let components = newString.components(separatedBy: NSCharacterSet.decimalDigits.inverted)
+            
+            let decimalString = components.joined(separator: "") as NSString
+            let length = decimalString.length
+//            let hasLeadingOne = length > 0 && decimalString.hasPrefix("1")  && !hasLeadingOne
+            
+            if length == 0 || (length > 10) || length > 11 {
+                let newLength = (textField.text! as NSString).length + (string as NSString).length - range.length as Int
+                
+                return (newLength > 10) ? false : true
+            }
+            var index = 0 as Int
+            let formattedString = NSMutableString()
+            
+//            if hasLeadingOne {
+//                formattedString.append("1 ")
+//                index += 1
+//            }
+            if (length - index) > 2 {
+                let areaCode = decimalString.substring(with: NSMakeRange(index, 3))
+                formattedString.appendFormat("(%@) ", areaCode)
+                index += 3
+            }
+            if length - index > 3 {
+                let prefix = decimalString.substring(with: NSMakeRange(index, 3))
+                formattedString.appendFormat("%@-", prefix)
+                index += 3
+            }
+            
+            let remainder = decimalString.substring(from: index)
+            formattedString.append(remainder)
+            textField.text = formattedString as String
+            return false
         }
         return true
     }

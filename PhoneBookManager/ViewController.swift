@@ -25,19 +25,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewWillAppear(animated)
         
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        
         let managedContext = appDelegate?.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Contact")
-        
         do {
             ContactList = try managedContext!.fetch(fetchRequest)
             tableView.reloadData()
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -62,7 +58,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         var cell = tableView.dequeueReusableCell(withIdentifier: cellId)
         if (cell == nil) {
-            cell = UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier: cellId)
+            cell = UITableViewCell(style: .value1, reuseIdentifier: cellId)
         }
         
         let contact = ContactList[indexPath.row]
@@ -72,39 +68,51 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         return cell!
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let deletedContact = ContactList.remove(at: indexPath.row)
+            
+            do {
+                managedContext.delete(deletedContact)
+                try managedContext.save()
+            } catch {
+                print("Error Saving")
+            }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        var addContactVC : AddContactViewController = AddContactViewController()
-        
-        addContactVC = segue.destination as! AddContactViewController
-        
-        addContactVC.addContactCH = { newContactName, newContactNumber in
-            if let NewContactName = newContactName {
-                
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                
-                let managedContext = appDelegate.persistentContainer.viewContext
-                
-                let entity = NSEntityDescription.entity(forEntityName: "Contact", in: managedContext)
-                
-                let contact = NSManagedObject(entity: entity!, insertInto: managedContext)
-                
-                contact.setValue(NewContactName, forKey: "name")
-                contact.setValue(newContactNumber, forKey: "number")
-                
-                do {
-                    try managedContext.save()
-                    self.ContactList.append(contact)
-                    self.tableView.reloadData()
+        if let navigationController = segue.destination as? UINavigationController {
+            let addContactVC = navigationController.viewControllers.first as? AddContactViewController
+            addContactVC?.addContactCH = { newContactName, newContactNumber in
+                if let NewContactName = newContactName {
                     
-                } catch let error as NSError {
-                    print("Could not save. \(error), \(error.userInfo)")
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    
+                    let managedContext = appDelegate.persistentContainer.viewContext
+                    
+                    let entity = NSEntityDescription.entity(forEntityName: "Contact", in: managedContext)
+                    
+                    let contact = NSManagedObject(entity: entity!, insertInto: managedContext)
+                    
+                    contact.setValue(NewContactName, forKey: "name")
+                    contact.setValue(newContactNumber, forKey: "number")
+                    
+                    do {
+                        try managedContext.save()
+                        self.ContactList.append(contact)
+                        self.tableView.reloadData()
+                        
+                    } catch let error as NSError {
+                        print("Could not save. \(error), \(error.userInfo)")
+                    }
                 }
-                
             }
         }
-        
     }
     
 }
